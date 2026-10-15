@@ -1,0 +1,2 @@
+episode,seed,cube_x,cube_y,cube_yaw,success,failure_reason,time_s,ik_iterations
+1,7,0.41251718398884,-0.1026129637866934,1.7321842783482628,0,IK/position tracking failed at pregrasp; error=0.351 m,1.4145257989985112,22

@@ -1,0 +1,208 @@
+
+<mujoco model="franka_panda_pick_place">
+  <compiler angle="radian" autolimits="true"/>
+  <option timestep="0.002" gravity="0 0 -9.81"
+          integrator="implicitfast"/>
+  <size njmax="3000" nconmax="1000"/>
+
+  <visual>
+    <global azimuth="135" elevation="-25"/>
+    <headlight diffuse="0.8 0.8 0.8"
+               ambient="0.3 0.3 0.3"/>
+  </visual>
+
+  <default>
+    <joint damping="3" armature="0.02"/>
+    <geom friction="1.5 0.05 0.005"
+          condim="4"
+          solref="0.01 1"/>
+  </default>
+
+  <worldbody>
+    <light pos="0 -1 2.5" dir="0 0 -1"/>
+    <geom name="floor" type="plane"
+          size="2 2 0.1" rgba="0.85 0.86 0.88 1"/>
+
+    <!-- TABLE: tabletop height = 0.72 m -->
+    <body name="table" pos="0.50 0 0.36">
+      <geom name="table_top" type="box"
+            size="0.48 0.60 0.36"
+            rgba="0.40 0.25 0.14 1"/>
+
+      <geom type="box" pos="-0.40 -0.50 -0.18"
+            size="0.035 0.035 0.18"
+            rgba="0.25 0.25 0.25 1"/>
+      <geom type="box" pos="-0.40 0.50 -0.18"
+            size="0.035 0.035 0.18"
+            rgba="0.25 0.25 0.25 1"/>
+      <geom type="box" pos="0.40 -0.50 -0.18"
+            size="0.035 0.035 0.18"
+            rgba="0.25 0.25 0.25 1"/>
+      <geom type="box" pos="0.40 0.50 -0.18"
+            size="0.035 0.035 0.18"
+            rgba="0.25 0.25 0.25 1"/>
+    </body>
+
+    <!-- BLUE TRAY -->
+    <body name="tray" pos="0.72 0.28 0.735">
+      <geom name="tray_base" type="box"
+            pos="0 0 0.01" size="0.15 0.13 0.01"
+            rgba="0.10 0.40 0.80 1"/>
+      <geom type="box" pos="-0.14 0 0.04"
+            size="0.01 0.13 0.03"
+            rgba="0.10 0.30 0.70 1"/>
+      <geom type="box" pos="0.14 0 0.04"
+            size="0.01 0.13 0.03"
+            rgba="0.10 0.30 0.70 1"/>
+      <geom type="box" pos="0 -0.12 0.04"
+            size="0.13 0.01 0.03"
+            rgba="0.10 0.30 0.70 1"/>
+      <geom type="box" pos="0 0.12 0.04"
+            size="0.13 0.01 0.03"
+            rgba="0.10 0.30 0.70 1"/>
+    </body>
+
+    <!-- RED CUBE; Python randomizes its pose -->
+    <body name="cube" pos="0.40 -0.20 0.747">
+      <freejoint name="cube_free"/>
+      <geom name="cube_geom" type="box"
+            size="0.025 0.025 0.025"
+            mass="0.08"
+            rgba="0.95 0.12 0.08 1"/>
+    </body>
+
+    <!-- SIMPLIFIED FRANKA-STYLE ARM -->
+    <body name="panda_base" pos="0 0 0.72">
+      <geom type="cylinder" pos="0 0 0.05"
+            size="0.09 0.05"
+            rgba="0.8 0.82 0.85 1"/>
+
+      <body name="link1" pos="0 0 0.10">
+        <joint name="joint1" axis="0 0 1"
+               range="-2.89 2.89"/>
+        <geom type="capsule"
+              fromto="0 0 0 0 0 0.18"
+              size="0.055" rgba="0.92 0.93 0.96 1"/>
+
+        <body name="link2" pos="0 0 0.18">
+          <joint name="joint2" axis="0 1 0"
+                 range="-1.76 1.76"/>
+          <geom type="sphere" size="0.065"
+                rgba="0.25 0.27 0.30 1"/>
+          <geom type="capsule"
+                fromto="0 0 0 0.20 0 0"
+                size="0.05" rgba="0.92 0.93 0.96 1"/>
+
+          <body name="link3" pos="0.20 0 0">
+            <joint name="joint3" axis="0 0 1"
+                   range="-2.89 2.89"/>
+            <geom type="sphere" size="0.06"
+                  rgba="0.25 0.27 0.30 1"/>
+            <geom type="capsule"
+                  fromto="0 0 0 0.18 0 0"
+                  size="0.045" rgba="0.92 0.93 0.96 1"/>
+
+            <body name="link4" pos="0.18 0 0">
+              <joint name="joint4" axis="0 1 0"
+                     range="-3.07 -0.07"/>
+              <geom type="sphere" size="0.055"
+                    rgba="0.25 0.27 0.30 1"/>
+              <geom type="capsule"
+                    fromto="0 0 0 0.15 0 0"
+                    size="0.04" rgba="0.92 0.93 0.96 1"/>
+
+              <body name="link5" pos="0.15 0 0">
+                <joint name="joint5" axis="0 0 1"
+                       range="-2.89 2.89"/>
+                <geom type="sphere" size="0.05"
+                      rgba="0.25 0.27 0.30 1"/>
+                <geom type="capsule"
+                      fromto="0 0 0 0.12 0 0"
+                      size="0.035" rgba="0.92 0.93 0.96 1"/>
+
+                <body name="link6" pos="0.12 0 0">
+                  <joint name="joint6" axis="0 1 0"
+                         range="0 3.75"/>
+                  <geom type="sphere" size="0.045"
+                        rgba="0.25 0.27 0.30 1"/>
+                  <geom type="capsule"
+                        fromto="0 0 0 0.09 0 0"
+                        size="0.032" rgba="0.92 0.93 0.96 1"/>
+
+                  <body name="link7" pos="0.09 0 0">
+                    <joint name="joint7" axis="0 0 1"
+                           range="-2.89 2.89"/>
+                    <geom type="capsule"
+                          fromto="0 0 0 0.06 0 0"
+                          size="0.03" rgba="0.92 0.93 0.96 1"/>
+
+                    <!-- HAND AND GRIPPER -->
+                    <body name="hand" pos="0.06 0 0">
+                      <geom name="hand_visual" type="box"
+                            size="0.045 0.06 0.03"
+                            rgba="0.16 0.18 0.21 1"/>
+
+                      <site name="tcp" pos="0.025 0 -0.05"
+                            size="0.012"
+                            rgba="0 1 0 1"/>
+
+                      <body name="left_finger"
+                            pos="0.025 0.035 -0.04">
+                        <joint name="left_finger_joint"
+                               type="slide" axis="0 -1 0"
+                               range="0 0.025"/>
+                        <geom name="left_finger_geom"
+                              type="box" pos="0 0 -0.035"
+                              size="0.012 0.012 0.04"
+                              mass="0.08"
+                              rgba="0.12 0.12 0.14 1"/>
+                      </body>
+
+                      <body name="right_finger"
+                            pos="0.025 -0.035 -0.04">
+                        <joint name="right_finger_joint"
+                               type="slide" axis="0 1 0"
+                               range="0 0.025"/>
+                        <geom name="right_finger_geom"
+                              type="box" pos="0 0 -0.035"
+                              size="0.012 0.012 0.04"
+                              mass="0.08"
+                              rgba="0.12 0.12 0.14 1"/>
+                      </body>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <position name="act_joint1" joint="joint1"
+              kp="200" kv="25"/>
+    <position name="act_joint2" joint="joint2"
+              kp="200" kv="25"/>
+    <position name="act_joint3" joint="joint3"
+              kp="180" kv="22"/>
+    <position name="act_joint4" joint="joint4"
+              kp="160" kv="20"/>
+    <position name="act_joint5" joint="joint5"
+              kp="100" kv="15"/>
+    <position name="act_joint6" joint="joint6"
+              kp="80" kv="12"/>
+    <position name="act_joint7" joint="joint7"
+              kp="60" kv="10"/>
+
+    <!-- 0 = open; 0.025 = close -->
+    <position name="gripper_left"
+              joint="left_finger_joint"
+              kp="300" kv="20" ctrlrange="0 0.025"/>
+    <position name="gripper_right"
+              joint="right_finger_joint"
+              kp="300" kv="20" ctrlrange="0 0.025"/>
+  </actuator>
+</mujoco>
+
