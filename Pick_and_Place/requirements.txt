@@ -1,8 +1,0 @@
-mujoco
-mink
-numpy
-scipy
-matplotlib
-pandas
-qpsolvers
-clarabel
